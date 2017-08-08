@@ -1,0 +1,745 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     32603,        737]
+NotebookOptionsPosition[     31937,        709]
+NotebookOutlinePosition[     32292,        725]
+CellTagsIndexPosition[     32249,        722]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Arduino Interface", "Title",
+ CellChangeTimes->{{3.682019374273748*^9, 3.682019387767035*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ard", " ", "=", " ", 
+   RowBox[{"DeviceOpen", "[", 
+    RowBox[{"\"\<Serial\>\"", ",", 
+     RowBox[{"{", 
+      RowBox[{"\"\</dev/cu.usbserial-AI02KQKZ\>\"", ",", 
+       RowBox[{"\"\<BaudRate\>\"", "\[Rule]", "115200"}]}], "}"}]}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.68201943387506*^9, 3.682019444046109*^9}, {
+  3.682019512261943*^9, 3.6820195714183807`*^9}, {3.682019650915723*^9, 
+  3.6820196716559772`*^9}, {3.682020267039604*^9, 3.68202028706339*^9}, {
+  3.682020734273851*^9, 3.682020774311879*^9}}],
+
+Cell["\<\
+Serial << \[OpenCurlyDoubleQuote]{\[OpenCurlyDoubleQuote] << \
+millis()-startTime;
+    Serial << \[OpenCurlyDoubleQuote],\[CloseCurlyDoubleQuote] << \
+nextStatus.error;
+    Serial << \[OpenCurlyDoubleQuote],\[CloseCurlyDoubleQuote] << \
+nextStatus.prop;
+    Serial << \[OpenCurlyDoubleQuote],\[CloseCurlyDoubleQuote] << \
+nextStatus.integ;
+    Serial << \[OpenCurlyDoubleQuote],\[CloseCurlyDoubleQuote] << \
+nextStatus.deriv;
+    Serial << \[OpenCurlyDoubleQuote],\[CloseCurlyDoubleQuote] << corr;  \
+\[OpenCurlyDoubleQuote]T\[CloseCurlyDoubleQuote] or \[OpenCurlyDoubleQuote]P\
+\[CloseCurlyDoubleQuote] }\
+\>", "Text",
+ CellChangeTimes->{{3.682021584732402*^9, 3.682021586043426*^9}, {
+  3.6820314256231947`*^9, 3.6820314316358633`*^9}, {3.682372432359276*^9, 
+  3.682372456746581*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"getDataString", "[", "]"}], ":=", " ", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"res", ",", "err"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"DeviceReadBuffer", "[", 
+      RowBox[{"ard", ",", 
+       RowBox[{"\"\<ReadTerminator\>\"", "\[Rule]", "123"}]}], "]"}], ";", 
+     "  ", 
+     RowBox[{"(*", " ", 
+      RowBox[{"get", " ", "the", " ", "start", " ", "of", " ", "the", " ", 
+       RowBox[{"buffer", " ", "'"}], 
+       RowBox[{"{", "'", " "}]}], "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"res", " ", "=", " ", 
+      RowBox[{"\"\<{\>\"", " ", "<>", " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"DeviceReadBuffer", "[", 
+          RowBox[{"ard", ",", 
+           RowBox[{"\"\<ReadTerminator\>\"", "\[Rule]", "125"}]}], "]"}], "//",
+          "FromCharacterCode"}], ")"}], " ", "<>", " ", "\"\<}\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"res", " ", "=", " ", 
+      RowBox[{"ToExpression", "[", " ", "res", " ", "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Return", "[", "res", "]"}], ";"}]}], "\[IndentingNewLine]", 
+   "]"}]}]], "Input",
+ CellChangeTimes->CompressedData["
+1:eJxTTMoPSmViYGAQBmIQbeXhG/gs77Xjk8nFwSD6izRvDIh++icoFkQLS7OX
+gehQZTEw/eH1okYQ7RPI0wyiL397uwNEH8javAtEx0VFHALRmzYuPAOib8as
+vASiV92YexlEl330+ASiH5yJ/AKi4/O2/wDR++5N+gmi2/SVmJ4D6awXj1hA
+dF1vnCyIvrBDUBFEt7CstATRZVIXrED0Jc6TriC69f7HcBA9uaEiEUSnmi8C
+07e0OFteAWmVnLNtINr8oXc/iJ7cFzIRRG+pvzsNRD/s4poOov34Xs0G0QY3
+N8wB0SZfXi0C0ZOs9RaDaACh16/S
+  "]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"GraphicsGrid", "[", "\[IndentingNewLine]", 
+  RowBox[{"{", "\[IndentingNewLine]", " ", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"\"\<\>\"", ",", 
+      RowBox[{"HorizontalGauge", "[", 
+       RowBox[{
+        RowBox[{"Dynamic", "[", "error", "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"-", "130"}], ",", "130"}], "}"}], ",", 
+        RowBox[{"GaugeLabels", "\[Rule]", "\"\<err\>\""}]}], "]"}], ",", 
+      "\"\<\>\""}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"VerticalGauge", "[", 
+       RowBox[{
+        RowBox[{"Dynamic", "[", "prop", "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"-", "100"}], ",", "100"}], "}"}], ",", 
+        RowBox[{"GaugeLabels", "\[Rule]", "\"\<prop\>\""}]}], "]"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"VerticalGauge", "[", 
+       RowBox[{
+        RowBox[{"Dynamic", "[", "integ", "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"-", "100"}], ",", "100"}], "}"}], ",", 
+        RowBox[{"GaugeLabels", "\[Rule]", "\"\<\[Integral]\>\""}]}], "]"}], 
+      ",", "\[IndentingNewLine]", 
+      RowBox[{"VerticalGauge", "[", 
+       RowBox[{
+        RowBox[{"Dynamic", "[", "deriv", "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"-", "100"}], ",", "100"}], "}"}], ",", 
+        RowBox[{"GaugeLabels", "\[Rule]", "\"\<\[Delta]\>\""}]}], "]"}]}], 
+     "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Dynamic", "[", "millis", "]"}], ",", 
+      RowBox[{"Dynamic", "[", "turnType", "]"}]}], "}"}]}], 
+   "\[IndentingNewLine]", "}"}], "]"}]], "Input",
+ CellChangeTimes->{{3.6820292774915257`*^9, 3.682029492148088*^9}, {
+   3.682029663289112*^9, 3.682029686638587*^9}, {3.682029810595492*^9, 
+   3.682029817130724*^9}, {3.682029873834758*^9, 3.682029888209161*^9}, {
+   3.682030353189685*^9, 3.6820303652666273`*^9}, {3.682031464709324*^9, 
+   3.682031475900175*^9}, {3.682372683044703*^9, 3.6823728018731937`*^9}, {
+   3.682372832296587*^9, 3.6823728378092537`*^9}, {3.682372868856203*^9, 
+   3.68237292013412*^9}, {3.682373003275943*^9, 3.682373019599131*^9}, {
+   3.6823730629075413`*^9, 3.68237309249778*^9}, {3.682373152505714*^9, 
+   3.682373173015609*^9}, 3.682373206182436*^9, {3.682373302252808*^9, 
+   3.6823733489964437`*^9}, {3.682373387025611*^9, 3.68237344376062*^9}, {
+   3.682373493226162*^9, 3.6823734933527927`*^9}, {3.682373868735944*^9, 
+   3.68237388056645*^9}, {3.682373914564754*^9, 3.682373931568228*^9}}],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {{
+     TagBox[InsetBox["", {193.5, -193.5}, {Center, Center}, {360., 360.}],
+      "InsetString"], InsetBox[
+      DynamicModuleBox[{System`GaugesDump`height$$ = Dynamic[
+        Charting`barValHeight[$CellContext`error, {Identity, Identity}, {-130,
+          130}, {{0, 0}, {1, 0}}, 0]], System`GaugesDump`pt$$ = {0, 0}}, 
+       LocatorPaneBox[Dynamic[
+         Charting`barValueToPoint[$CellContext`error, {
+          Identity, Identity}, {-130, 130}, {{0, 0}, {1, 0}}, 0], {
+         None, (System`GaugesDump`height$$ = 
+           Charting`barPointtoValue[#, {Identity, Identity}, {-130, 130}, {{0,
+              0}, {1, 0}}, 0]; $CellContext`error = (
+            Part[{None, ($CellContext`error = #)& , None}, 2][
+             System`GaugesDump`height$$, #2]; $CellContext`error); 
+          System`GaugesDump`pt$$ = 
+           Charting`barValueToPoint[$CellContext`error, {
+             Identity, Identity}, {-130, 130}, {{0, 0}, {1, 0}}, 0]; Null)& , 
+          None}, {}], 
+        GraphicsBox[{{}, 
+          {Opacity[0], PointBox[{{{-0.1, -0.15}, {1.1, 0.15}}}]}, 
+          GeometricTransformationBox[{}, {{{1, 0}, {0, 1}}, {0, 0}}], {
+           StyleBox[{LineBox[{{0., 0.}, {1., 0.}}], 
+             {GrayLevel[0.5], AbsoluteThickness[0.5], CapForm["Butt"], {
+               {GrayLevel[0.5], AbsoluteThickness[1], CapForm["Butt"], 
+                LineBox[{{{0.11538461538461539`, 0.}, 
+                   Scaled[{0., 0.06}, {0.11538461538461539`, 0.}]}, {{0.5, 
+                   0.}, Scaled[{0., 0.06}, {0.5, 0.}]}, {{0.8846153846153846, 
+                   0.}, Scaled[{0., 0.06}, {0.8846153846153846, 0.}]}}]}, 
+               {GrayLevel[0.5], AbsoluteThickness[0.5], CapForm["Butt"], 
+                LineBox[{{{0.019230769230769232`, 0.}, 
+                   Scaled[{0., 0.04}, {0.019230769230769232`, 0.}]}, {{
+                   0.21153846153846154`, 0.}, 
+                   Scaled[{0., 0.04}, {0.21153846153846154`, 0.}]}, {{
+                   0.3076923076923077, 0.}, 
+                   Scaled[{0., 0.04}, {0.3076923076923077, 0.}]}, {{
+                   0.40384615384615385`, 0.}, 
+                   Scaled[{0., 0.04}, {0.40384615384615385`, 0.}]}, {{
+                   0.5961538461538461, 0.}, 
+                   Scaled[{0., 0.04}, {0.5961538461538461, 0.}]}, {{
+                   0.6923076923076923, 0.}, 
+                   Scaled[{0., 0.04}, {0.6923076923076923, 0.}]}, {{
+                   0.7884615384615384, 0.}, 
+                   Scaled[{0., 0.04}, {0.7884615384615384, 0.}]}, {{
+                   0.9807692307692307, 0.}, 
+                   Scaled[{0., 0.04}, {0.9807692307692307, 0.}]}}]}}, 
+              {GrayLevel[0.5], AbsoluteThickness[1], {{InsetBox[
+                  RowBox[{"-", "100"}], 
+                  Offset[{0., -3.}, {0.11538461538461539, 0.}], 
+                  ImageScaled[{0.5, 1.}], Automatic, {1, 0}], 
+                 InsetBox["0", Offset[{0., -3.}, {0.5, 0.}], 
+                  ImageScaled[{0.5, 1.}], Automatic, {1, 0}], 
+                 InsetBox["100", Offset[{0., -3.}, {0.8846153846153846, 0.}], 
+                  ImageScaled[{0.5, 1.}], Automatic, {1, 
+                  0}]}, {{}, {}, {}, {}, {}, {}, {}, {}}}, {}}}},
+            Antialiasing->False], {}}, InsetBox[
+           StyleBox["\<\"err\"\>",
+            StripOnInput->False,
+            LineColor->GrayLevel[0.25],
+            FrontFaceColor->GrayLevel[0.25],
+            BackFaceColor->GrayLevel[0.25],
+            GraphicsColor->GrayLevel[0.25],
+            FontFamily->"Helvetica",
+            FontSize->10,
+            FontColor->GrayLevel[0.25]], {0.5000000000000001, -0.12}, Top, 
+           Automatic], 
+          {RGBColor[0.73, 0.24506099999999992`, 0.1971], 
+           GeometricTransformationBox[{{}, 
+             {RGBColor[0.73, 0.24506099999999992`, 0.1971], {}, 
+              StyleBox[
+               TagBox[
+                TooltipBox[PolygonBox[{{0.5, 0.5}, {-0.5, 0.5}, {0., -0.5}}],
+                 DynamicBox[
+                  ToBoxes[$CellContext`error, TraditionalForm]]],
+                Annotation[#, 
+                 Dynamic[$CellContext`error], "Tooltip"]& ],
+               "MarkerRotation" -> 0]}}, {{{-0.07499999999999996, 0.}, {0., 
+             0.075}}, {
+             1. (0. + 0.0038461538461538464` (130. + 
+                 1. If[Dynamic[
+                    MatchQ[$CellContext`error, PatternTest[
+                    Blank[], Charting`realNumericQ]]], Dynamic[
+                    Clip[$CellContext`error, Sort[
+                    N[{-130., 130.}], Less]]], -130.])), 0.0375}}]}, {}, 
+          GeometricTransformationBox[{}, {{{1, 0}, {0, 1}}, {0, 0}}]},
+         AlignmentPoint->Center,
+         AspectRatio->Automatic,
+         Axes->False,
+         AxesLabel->None,
+         AxesOrigin->Automatic,
+         AxesStyle->{},
+         Background->None,
+         BaseStyle->{},
+         BaselinePosition->Automatic,
+         ColorOutput->Automatic,
+         ContentSelectable->Automatic,
+         CoordinatesToolOptions:>Automatic,
+         DisplayFunction->Identity,
+         Epilog->{},
+         FormatType->TraditionalForm,
+         Frame->False,
+         FrameLabel->None,
+         FrameStyle->{},
+         FrameTicks->Automatic,
+         FrameTicksStyle->{},
+         GridLines->None,
+         GridLinesStyle->{},
+         ImageMargins->0.,
+         ImagePadding->All,
+         ImageSize->Small,
+         ImageSizeRaw->Automatic,
+         LabelStyle->{},
+         Method->{
+          "DefaultBoundaryStyle" -> Automatic, "DefaultPlotStyle" -> 
+           Automatic},
+         PlotLabel->None,
+         PlotRange->All,
+         PlotRangeClipping->False,
+         PlotRangePadding->Automatic,
+         PlotRegion->Automatic,
+         PreserveImageOptions->Automatic,
+         Prolog->{},
+         RotateLabel->True,
+         Ticks->Automatic,
+         TicksStyle->{}],
+        Appearance->None,
+        Enabled->Automatic],
+       DynamicModuleValues:>{}], {580.5, -193.5}, {
+      Center, Center}, {360., 360.}], 
+     TagBox[InsetBox["", {967.5, -193.5}, {Center, Center}, {360., 360.}],
+      "InsetString"]}, {InsetBox[
+      DynamicModuleBox[{System`GaugesDump`height$$ = Dynamic[
+        Charting`barValHeight[$CellContext`prop, {Identity, Identity}, {-100, 
+         100}, {{0, 0}, {0, 1}}, Rational[1, 2] Pi]], 
+       System`GaugesDump`pt$$ = {0, 0}}, 
+       LocatorPaneBox[Dynamic[
+         Charting`barValueToPoint[$CellContext`prop, {
+          Identity, Identity}, {-100, 100}, {{0, 0}, {0, 1}}, Rational[1, 2] 
+          Pi], {
+         None, (System`GaugesDump`height$$ = 
+           Charting`barPointtoValue[#, {Identity, Identity}, {-100, 100}, {{0,
+              0}, {0, 1}}, Rational[1, 2] Pi]; $CellContext`prop = (
+            Part[{None, ($CellContext`prop = #)& , None}, 2][
+             System`GaugesDump`height$$, #2]; $CellContext`prop); 
+          System`GaugesDump`pt$$ = 
+           Charting`barValueToPoint[$CellContext`prop, {
+             Identity, Identity}, {-100, 100}, {{0, 0}, {0, 1}}, 
+             Rational[1, 2] Pi]; Null)& , None}, {}], 
+        GraphicsBox[{{}, 
+          {Opacity[0], PointBox[{{{-0.15, -0.1}, {0.15, 1.1}}}]}, 
+          GeometricTransformationBox[{}, {{{0, -1}, {1, 0}}, {0, 0}}], {
+           StyleBox[{LineBox[{{0., 0.}, {0., 1.}}], 
+             {GrayLevel[0.5], AbsoluteThickness[0.5], CapForm["Butt"], {
+               {GrayLevel[0.5], AbsoluteThickness[1], CapForm["Butt"], 
+                LineBox[{{{0., 0.}, Scaled[{-0.06, 0.}, {0., 0.}]}, {{0., 
+                   0.25}, Scaled[{-0.06, 0.}, {0., 0.25}]}, {{0., 0.5}, 
+                   Scaled[{-0.06, 0.}, {0., 0.5}]}, {{0., 0.75}, 
+                   Scaled[{-0.06, 0.}, {0., 0.75}]}, {{0., 1.}, 
+                   Scaled[{-0.06, 0.}, {0., 1.}]}}]}, 
+               {GrayLevel[0.5], AbsoluteThickness[0.5], CapForm["Butt"], 
+                LineBox[{{{0., 0.1}, Scaled[{-0.04, 0.}, {0., 0.1}]}, {{0., 
+                   0.2}, Scaled[{-0.04, 0.}, {0., 0.2}]}, {{0., 0.3}, 
+                   Scaled[{-0.04, 0.}, {0., 0.3}]}, {{0., 0.4}, 
+                   Scaled[{-0.04, 0.}, {0., 0.4}]}, {{0., 0.6}, 
+                   Scaled[{-0.04, 0.}, {0., 0.6}]}, {{0., 0.7}, 
+                   Scaled[{-0.04, 0.}, {0., 0.7}]}, {{0., 0.8}, 
+                   Scaled[{-0.04, 0.}, {0., 0.8}]}, {{0., 0.9}, 
+                   Scaled[{-0.04, 0.}, {0., 0.9}]}}]}}, 
+              {GrayLevel[0.5], AbsoluteThickness[1], {{InsetBox[
+                  RowBox[{"-", "100"}], Offset[{3., 0.}, {0., 0.}], 
+                  ImageScaled[{0, 0.5}], Automatic, {1, 0}], InsetBox[
+                  RowBox[{"-", "50"}], Offset[{3., 0.}, {0., 0.25}], 
+                  ImageScaled[{0, 0.5}], Automatic, {1, 0}], 
+                 InsetBox["0", Offset[{3., 0.}, {0., 0.5}], 
+                  ImageScaled[{0, 0.5}], Automatic, {1, 0}], 
+                 InsetBox["50", Offset[{3., 0.}, {0., 0.75}], ImageScaled[
+                  {0, 0.5}], Automatic, {1, 0}], 
+                 InsetBox["100", Offset[{3., 0.}, {0., 1.}], 
+                  ImageScaled[{0, 0.5}], Automatic, {1, 
+                  0}]}, {{}, {}, {}, {}, {}, {}, {}, {}}}, {}}}},
+            Antialiasing->False], {}}, InsetBox[
+           StyleBox["\<\"prop\"\>",
+            StripOnInput->False,
+            LineColor->GrayLevel[0.25],
+            FrontFaceColor->GrayLevel[0.25],
+            BackFaceColor->GrayLevel[0.25],
+            GraphicsColor->GrayLevel[0.25],
+            FontFamily->"Helvetica",
+            FontSize->10,
+            FontColor->GrayLevel[0.25]], {0., -0.039999999999999994}, Top, 
+           Automatic], 
+          {RGBColor[0.73, 0.24506099999999992`, 0.1971], 
+           GeometricTransformationBox[{{}, 
+             {RGBColor[0.73, 0.24506099999999992`, 0.1971], {}, 
+              StyleBox[
+               TagBox[
+                TooltipBox[PolygonBox[{{0.5, 0.5}, {-0.5, 0.5}, {0., -0.5}}],
+                 DynamicBox[
+                  ToBoxes[$CellContext`prop, TraditionalForm]]],
+                Annotation[#, 
+                 Dynamic[$CellContext`prop], "Tooltip"]& ],
+               "MarkerRotation" -> Rational[1, 2] Pi]}}, {{{0., -0.075}, {
+             0.07500000000000001, 
+             0.}}, {-0.0375, 
+              1. (0. + 0.005 (100. + 
+                 1. If[Dynamic[
+                    MatchQ[$CellContext`prop, PatternTest[
+                    Blank[], Charting`realNumericQ]]], Dynamic[
+                    Clip[$CellContext`prop, Sort[
+                    N[{-100., 100.}], Less]]], -100.]))}}]}, {}, 
+          GeometricTransformationBox[{}, {{{0, -1}, {1, 0}}, {0, 0}}]},
+         AlignmentPoint->Center,
+         AspectRatio->Automatic,
+         Axes->False,
+         AxesLabel->None,
+         AxesOrigin->Automatic,
+         AxesStyle->{},
+         Background->None,
+         BaseStyle->{},
+         BaselinePosition->Automatic,
+         ColorOutput->Automatic,
+         ContentSelectable->Automatic,
+         CoordinatesToolOptions:>Automatic,
+         DisplayFunction->Identity,
+         Epilog->{},
+         FormatType->TraditionalForm,
+         Frame->False,
+         FrameLabel->None,
+         FrameStyle->{},
+         FrameTicks->Automatic,
+         FrameTicksStyle->{},
+         GridLines->None,
+         GridLinesStyle->{},
+         ImageMargins->0.,
+         ImagePadding->All,
+         ImageSize->Small,
+         ImageSizeRaw->Automatic,
+         LabelStyle->{},
+         Method->{
+          "DefaultBoundaryStyle" -> Automatic, "DefaultPlotStyle" -> 
+           Automatic},
+         PlotLabel->None,
+         PlotRange->All,
+         PlotRangeClipping->False,
+         PlotRangePadding->Automatic,
+         PlotRegion->Automatic,
+         PreserveImageOptions->Automatic,
+         Prolog->{},
+         RotateLabel->True,
+         Ticks->Automatic,
+         TicksStyle->{}],
+        Appearance->None,
+        Enabled->Automatic],
+       DynamicModuleValues:>{}], {193.5, -580.5}, {
+      Center, Center}, {360., 360.}], InsetBox[
+      DynamicModuleBox[{System`GaugesDump`height$$ = Dynamic[
+        Charting`barValHeight[$CellContext`integ, {Identity, Identity}, {-100,
+          100}, {{0, 0}, {0, 1}}, Rational[1, 2] Pi]], 
+       System`GaugesDump`pt$$ = {0, 0}}, 
+       LocatorPaneBox[Dynamic[
+         Charting`barValueToPoint[$CellContext`integ, {
+          Identity, Identity}, {-100, 100}, {{0, 0}, {0, 1}}, Rational[1, 2] 
+          Pi], {None, (
+          System`GaugesDump`height$$ = 
+           Charting`barPointtoValue[#, {Identity, Identity}, {-100, 100}, {{0,
+              0}, {0, 1}}, Rational[1, 2] Pi]; $CellContext`integ = (
+            Part[{None, ($CellContext`integ = #)& , None}, 2][
+             System`GaugesDump`height$$, #2]; $CellContext`integ); 
+          System`GaugesDump`pt$$ = 
+           Charting`barValueToPoint[$CellContext`integ, {
+             Identity, Identity}, {-100, 100}, {{0, 0}, {0, 1}}, 
+             Rational[1, 2] Pi]; Null)& , None}, {}], 
+        GraphicsBox[{{}, 
+          {Opacity[0], PointBox[{{{-0.15, -0.1}, {0.15, 1.1}}}]}, 
+          GeometricTransformationBox[{}, {{{0, -1}, {1, 0}}, {0, 0}}], {
+           StyleBox[{LineBox[{{0., 0.}, {0., 1.}}], 
+             {GrayLevel[0.5], AbsoluteThickness[0.5], CapForm["Butt"], {
+               {GrayLevel[0.5], AbsoluteThickness[1], CapForm["Butt"], 
+                LineBox[{{{0., 0.}, Scaled[{-0.06, 0.}, {0., 0.}]}, {{0., 
+                   0.25}, Scaled[{-0.06, 0.}, {0., 0.25}]}, {{0., 0.5}, 
+                   Scaled[{-0.06, 0.}, {0., 0.5}]}, {{0., 0.75}, 
+                   Scaled[{-0.06, 0.}, {0., 0.75}]}, {{0., 1.}, 
+                   Scaled[{-0.06, 0.}, {0., 1.}]}}]}, 
+               {GrayLevel[0.5], AbsoluteThickness[0.5], CapForm["Butt"], 
+                LineBox[{{{0., 0.1}, Scaled[{-0.04, 0.}, {0., 0.1}]}, {{0., 
+                   0.2}, Scaled[{-0.04, 0.}, {0., 0.2}]}, {{0., 0.3}, 
+                   Scaled[{-0.04, 0.}, {0., 0.3}]}, {{0., 0.4}, 
+                   Scaled[{-0.04, 0.}, {0., 0.4}]}, {{0., 0.6}, 
+                   Scaled[{-0.04, 0.}, {0., 0.6}]}, {{0., 0.7}, 
+                   Scaled[{-0.04, 0.}, {0., 0.7}]}, {{0., 0.8}, 
+                   Scaled[{-0.04, 0.}, {0., 0.8}]}, {{0., 0.9}, 
+                   Scaled[{-0.04, 0.}, {0., 0.9}]}}]}}, 
+              {GrayLevel[0.5], AbsoluteThickness[1], {{InsetBox[
+                  RowBox[{"-", "100"}], Offset[{3., 0.}, {0., 0.}], 
+                  ImageScaled[{0, 0.5}], Automatic, {1, 0}], InsetBox[
+                  RowBox[{"-", "50"}], Offset[{3., 0.}, {0., 0.25}], 
+                  ImageScaled[{0, 0.5}], Automatic, {1, 0}], 
+                 InsetBox["0", Offset[{3., 0.}, {0., 0.5}], 
+                  ImageScaled[{0, 0.5}], Automatic, {1, 0}], 
+                 InsetBox["50", Offset[{3., 0.}, {0., 0.75}], 
+                  ImageScaled[{0, 0.5}], Automatic, {1, 0}], 
+                 InsetBox["100", Offset[{3., 0.}, {0., 1.}], 
+                  ImageScaled[{0, 0.5}], Automatic, {1, 
+                  0}]}, {{}, {}, {}, {}, {}, {}, {}, {}}}, {}}}},
+            Antialiasing->False], {}}, InsetBox[
+           StyleBox["\<\"\[Integral]\"\>",
+            StripOnInput->False,
+            LineColor->GrayLevel[0.25],
+            FrontFaceColor->GrayLevel[0.25],
+            BackFaceColor->GrayLevel[0.25],
+            GraphicsColor->GrayLevel[0.25],
+            FontFamily->"Helvetica",
+            FontSize->10,
+            FontColor->GrayLevel[0.25]], {0., -0.039999999999999994}, Top, 
+           Automatic], 
+          {RGBColor[0.73, 0.24506099999999992`, 0.1971], 
+           GeometricTransformationBox[{{}, 
+             {RGBColor[0.73, 0.24506099999999992`, 0.1971], {}, 
+              StyleBox[
+               TagBox[
+                TooltipBox[PolygonBox[{{0.5, 0.5}, {-0.5, 0.5}, {0., -0.5}}],
+                 DynamicBox[
+                  ToBoxes[$CellContext`integ, TraditionalForm]]],
+                Annotation[#, 
+                 Dynamic[$CellContext`integ], "Tooltip"]& ],
+               "MarkerRotation" -> Rational[1, 2] Pi]}}, {{{0., -0.075}, {
+             0.07500000000000001, 
+             0.}}, {-0.0375, 
+              1. (0. + 0.005 (100. + 
+                 1. If[Dynamic[
+                    MatchQ[$CellContext`integ, PatternTest[
+                    Blank[], Charting`realNumericQ]]], Dynamic[
+                    Clip[$CellContext`integ, Sort[
+                    N[{-100., 100.}], Less]]], -100.]))}}]}, {}, 
+          GeometricTransformationBox[{}, {{{0, -1}, {1, 0}}, {0, 0}}]},
+         AlignmentPoint->Center,
+         AspectRatio->Automatic,
+         Axes->False,
+         AxesLabel->None,
+         AxesOrigin->Automatic,
+         AxesStyle->{},
+         Background->None,
+         BaseStyle->{},
+         BaselinePosition->Automatic,
+         ColorOutput->Automatic,
+         ContentSelectable->Automatic,
+         CoordinatesToolOptions:>Automatic,
+         DisplayFunction->Identity,
+         Epilog->{},
+         FormatType->TraditionalForm,
+         Frame->False,
+         FrameLabel->None,
+         FrameStyle->{},
+         FrameTicks->Automatic,
+         FrameTicksStyle->{},
+         GridLines->None,
+         GridLinesStyle->{},
+         ImageMargins->0.,
+         ImagePadding->All,
+         ImageSize->Small,
+         ImageSizeRaw->Automatic,
+         LabelStyle->{},
+         Method->{
+          "DefaultBoundaryStyle" -> Automatic, "DefaultPlotStyle" -> 
+           Automatic},
+         PlotLabel->None,
+         PlotRange->All,
+         PlotRangeClipping->False,
+         PlotRangePadding->Automatic,
+         PlotRegion->Automatic,
+         PreserveImageOptions->Automatic,
+         Prolog->{},
+         RotateLabel->True,
+         Ticks->Automatic,
+         TicksStyle->{}],
+        Appearance->None,
+        Enabled->Automatic],
+       DynamicModuleValues:>{}], {580.5, -580.5}, {
+      Center, Center}, {360., 360.}], InsetBox[
+      DynamicModuleBox[{System`GaugesDump`height$$ = Dynamic[
+        Charting`barValHeight[$CellContext`deriv, {Identity, Identity}, {-100,
+          100}, {{0, 0}, {0, 1}}, Rational[1, 2] Pi]], 
+       System`GaugesDump`pt$$ = {0, 0}}, 
+       LocatorPaneBox[Dynamic[
+         Charting`barValueToPoint[$CellContext`deriv, {
+          Identity, Identity}, {-100, 100}, {{0, 0}, {0, 1}}, Rational[1, 2] 
+          Pi], {None, (
+          System`GaugesDump`height$$ = 
+           Charting`barPointtoValue[#, {Identity, Identity}, {-100, 100}, {{0,
+              0}, {0, 1}}, Rational[1, 2] Pi]; $CellContext`deriv = (
+            Part[{None, ($CellContext`deriv = #)& , None}, 2][
+             System`GaugesDump`height$$, #2]; $CellContext`deriv); 
+          System`GaugesDump`pt$$ = 
+           Charting`barValueToPoint[$CellContext`deriv, {
+             Identity, Identity}, {-100, 100}, {{0, 0}, {0, 1}}, 
+             Rational[1, 2] Pi]; Null)& , None}, {}], 
+        GraphicsBox[{{}, 
+          {Opacity[0], PointBox[{{{-0.15, -0.1}, {0.15, 1.1}}}]}, 
+          GeometricTransformationBox[{}, {{{0, -1}, {1, 0}}, {0, 0}}], {
+           StyleBox[{LineBox[{{0., 0.}, {0., 1.}}], 
+             {GrayLevel[0.5], AbsoluteThickness[0.5], CapForm["Butt"], {
+               {GrayLevel[0.5], AbsoluteThickness[1], CapForm["Butt"], 
+                LineBox[{{{0., 0.}, Scaled[{-0.06, 0.}, {0., 0.}]}, {{0., 
+                   0.25}, Scaled[{-0.06, 0.}, {0., 0.25}]}, {{0., 0.5}, 
+                   Scaled[{-0.06, 0.}, {0., 0.5}]}, {{0., 0.75}, 
+                   Scaled[{-0.06, 0.}, {0., 0.75}]}, {{0., 1.}, 
+                   Scaled[{-0.06, 0.}, {0., 1.}]}}]}, 
+               {GrayLevel[0.5], AbsoluteThickness[0.5], CapForm["Butt"], 
+                LineBox[{{{0., 0.1}, Scaled[{-0.04, 0.}, {0., 0.1}]}, {{0., 
+                   0.2}, Scaled[{-0.04, 0.}, {0., 0.2}]}, {{0., 0.3}, 
+                   Scaled[{-0.04, 0.}, {0., 0.3}]}, {{0., 0.4}, 
+                   Scaled[{-0.04, 0.}, {0., 0.4}]}, {{0., 0.6}, 
+                   Scaled[{-0.04, 0.}, {0., 0.6}]}, {{0., 0.7}, 
+                   Scaled[{-0.04, 0.}, {0., 0.7}]}, {{0., 0.8}, 
+                   Scaled[{-0.04, 0.}, {0., 0.8}]}, {{0., 0.9}, 
+                   Scaled[{-0.04, 0.}, {0., 0.9}]}}]}}, 
+              {GrayLevel[0.5], AbsoluteThickness[1], {{InsetBox[
+                  RowBox[{"-", "100"}], Offset[{3., 0.}, {0., 0.}], 
+                  ImageScaled[{0, 0.5}], Automatic, {1, 0}], InsetBox[
+                  RowBox[{"-", "50"}], Offset[{3., 0.}, {0., 0.25}], 
+                  ImageScaled[{0, 0.5}], Automatic, {1, 0}], 
+                 InsetBox["0", Offset[{3., 0.}, {0., 0.5}], 
+                  ImageScaled[{0, 0.5}], Automatic, {1, 0}], 
+                 InsetBox["50", Offset[{3., 0.}, {0., 0.75}], 
+                  ImageScaled[{0, 0.5}], Automatic, {1, 0}], 
+                 InsetBox["100", Offset[{3., 0.}, {0., 1.}], 
+                  ImageScaled[{0, 0.5}], Automatic, {1, 
+                  0}]}, {{}, {}, {}, {}, {}, {}, {}, {}}}, {}}}},
+            Antialiasing->False], {}}, InsetBox[
+           StyleBox["\<\"\[Delta]\"\>",
+            StripOnInput->False,
+            LineColor->GrayLevel[0.25],
+            FrontFaceColor->GrayLevel[0.25],
+            BackFaceColor->GrayLevel[0.25],
+            GraphicsColor->GrayLevel[0.25],
+            FontFamily->"Helvetica",
+            FontSize->10,
+            FontColor->GrayLevel[0.25]], {0., -0.039999999999999994}, Top, 
+           Automatic], 
+          {RGBColor[0.73, 0.24506099999999992`, 0.1971], 
+           GeometricTransformationBox[{{}, 
+             {RGBColor[0.73, 0.24506099999999992`, 0.1971], {}, 
+              StyleBox[
+               TagBox[
+                TooltipBox[PolygonBox[{{0.5, 0.5}, {-0.5, 0.5}, {0., -0.5}}],
+                 DynamicBox[
+                  ToBoxes[$CellContext`deriv, TraditionalForm]]],
+                Annotation[#, 
+                 Dynamic[$CellContext`deriv], "Tooltip"]& ],
+               "MarkerRotation" -> Rational[1, 2] Pi]}}, {{{0., -0.075}, {
+             0.07500000000000001, 
+             0.}}, {-0.0375, 
+              1. (0. + 0.005 (100. + 
+                 1. If[Dynamic[
+                    MatchQ[$CellContext`deriv, PatternTest[
+                    Blank[], Charting`realNumericQ]]], Dynamic[
+                    Clip[$CellContext`deriv, Sort[
+                    N[{-100., 100.}], Less]]], -100.]))}}]}, {}, 
+          GeometricTransformationBox[{}, {{{0, -1}, {1, 0}}, {0, 0}}]},
+         AlignmentPoint->Center,
+         AspectRatio->Automatic,
+         Axes->False,
+         AxesLabel->None,
+         AxesOrigin->Automatic,
+         AxesStyle->{},
+         Background->None,
+         BaseStyle->{},
+         BaselinePosition->Automatic,
+         ColorOutput->Automatic,
+         ContentSelectable->Automatic,
+         CoordinatesToolOptions:>Automatic,
+         DisplayFunction->Identity,
+         Epilog->{},
+         FormatType->TraditionalForm,
+         Frame->False,
+         FrameLabel->None,
+         FrameStyle->{},
+         FrameTicks->Automatic,
+         FrameTicksStyle->{},
+         GridLines->None,
+         GridLinesStyle->{},
+         ImageMargins->0.,
+         ImagePadding->All,
+         ImageSize->Small,
+         ImageSizeRaw->Automatic,
+         LabelStyle->{},
+         Method->{
+          "DefaultBoundaryStyle" -> Automatic, "DefaultPlotStyle" -> 
+           Automatic},
+         PlotLabel->None,
+         PlotRange->All,
+         PlotRangeClipping->False,
+         PlotRangePadding->Automatic,
+         PlotRegion->Automatic,
+         PreserveImageOptions->Automatic,
+         Prolog->{},
+         RotateLabel->True,
+         Ticks->Automatic,
+         TicksStyle->{}],
+        Appearance->None,
+        Enabled->Automatic],
+       DynamicModuleValues:>{}], {967.5, -580.5}, {
+      Center, Center}, {360., 360.}]}, {InsetBox[
+      DynamicBox[ToBoxes[$CellContext`millis, TraditionalForm],
+       ImageSizeCache->{29., {0., 8.}}], {193.5, -967.5}, {
+      Center, Center}, {360., 360.}], InsetBox[
+      DynamicBox[ToBoxes[$CellContext`turnType, TraditionalForm],
+       ImageSizeCache->{7., {0., 8.}}], {580.5, -967.5}, {
+      Center, Center}, {360., 360.}], 
+     TagBox[InsetBox["", {967.5, -967.5}, {Center, Center}, {360., 360.}],
+      "InsetString"]}}, {}},
+  ContentSelectable->True,
+  PlotRangePadding->{6, 5}]], "Output",
+ CellChangeTimes->{
+  3.682373021993565*^9, {3.682373135098881*^9, 3.6823731616767883`*^9}, {
+   3.682373421264718*^9, 3.682373445668432*^9}, 3.682373508237335*^9, 
+   3.682373710330348*^9, 3.6823740188653173`*^9, 3.6823742164558077`*^9, 
+   3.682374433481881*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Do", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Quiet", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "millis", ",", " ", "error", ",", " ", "prop", ",", " ", "integ", ",", 
+        " ", "deriv", ",", " ", "turnType"}], " ", "}"}], " ", "=", " ", 
+      RowBox[{"getDataString", "[", "]"}]}], "]"}], ",", 
+    "\[IndentingNewLine]", "10000"}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.68202413346164*^9, 3.682024135916871*^9}, {
+  3.682024542102787*^9, 3.6820245440137167`*^9}, {3.682029063071535*^9, 
+  3.68202909009487*^9}, {3.682029840588468*^9, 3.682029858960875*^9}, {
+  3.682030059419869*^9, 3.6820300897804813`*^9}, {3.682030877028399*^9, 
+  3.682030888155386*^9}, {3.682031136527713*^9, 3.682031139676838*^9}, {
+  3.682031441748103*^9, 3.6820314428443613`*^9}, {3.682372559783594*^9, 
+  3.6823725848716383`*^9}, {3.6823726552772818`*^9, 3.682372665134076*^9}}],
+
+Cell[BoxData["$Aborted"], "Output",
+ CellChangeTimes->{3.682374748009561*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"DeviceClose", "[", "ard", "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.682019677605159*^9, 3.6820196862952347`*^9}}]
+}, Open  ]]
+},
+WindowSize->{808, 651},
+WindowMargins->{{236, Automatic}, {Automatic, 50}},
+FrontEndVersion->"11.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (July 28, \
+2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 100, 1, 92, "Title"],
+Cell[683, 25, 559, 12, 32, "Input"],
+Cell[1245, 39, 797, 17, 125, "Text"],
+Cell[2045, 58, 1558, 37, 159, "Input"],
+Cell[CellGroupData[{
+Cell[3628, 99, 2567, 56, 192, "Input"],
+Cell[6198, 157, 24503, 517, 375, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[30738, 679, 936, 18, 75, "Input"],
+Cell[31677, 699, 77, 1, 32, "Output"]
+}, Open  ]],
+Cell[31769, 703, 152, 3, 90, "Input"]
+}, Open  ]]
+}
+]
+*)
+
